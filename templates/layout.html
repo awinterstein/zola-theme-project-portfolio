@@ -148,19 +148,22 @@
             {% endfor -%}
 
             {% if page %}
-            {% for item in page.translations %}
-            {% if item.lang == other_language %}
-            {% set_global translation_url = item.permalink %}
-            {% endif %}
-            {% endfor %}
+              {% for item in page.translations %}
+                {% if item.lang == other_language %}
+                  {% set_global translation_url = item.permalink %}
+                {% endif %}
+              {% endfor %}
+              {% if not translation_url %}
+                {{ throw(message='Translation to language ' ~ other_language ~ ' is missing for page ' ~ page.path) }}
+              {% endif %}
             {% else %}
-            {% if other_language == config.default_language %}
-            {% set translation_url = config.base_url | safe %}
-            {% else %}
-            {% set translation_url = config.base_url ~ '/' ~ other_language %}
-            {% endif %}
-            {% set trimmed_path = current_path | trim_start_matches(pat='/') | trim_start_matches(pat=lang) %}
-            {% set translation_url = translation_url ~ '/' ~ trimmed_path %}
+              {% if other_language == config.default_language %}
+                {% set translation_url = config.base_url | safe %}
+              {% else %}
+                {% set translation_url = config.base_url ~ '/' ~ other_language %}
+              {% endif %}
+              {% set trimmed_path = current_path | trim_start_matches(pat='/') | trim_start_matches(pat=lang) %}
+              {% set translation_url = translation_url ~ '/' ~ trimmed_path %}
             {% endif %}
             <a href="{{ translation_url }}"
               class="bg-gray-200 text-gray-800 hover:text-gray-900 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-white p-1 rounded-full">
