@@ -21,6 +21,8 @@
   {% if config.extra.favicon.android_chrome_192 %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.android_chrome_192 }}" rel="android-chrome" sizes="192x192" />{% endif %}
   {% if config.extra.favicon.apple_touch_icon %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.apple_touch_icon }}" rel="apple-touch-icon" sizes="180x180" />{% endif %}
   {% if config.extra.favicon.apple_touch_icon %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.apple_touch_icon }}" rel="apple-touch-icon" sizes="180x180" />{% endif %}
+
+  {%- block extra_headers -%}{%- endblock extra_headers %}
 </head>
 
 <body class="dark:bg-gray-700 flex flex-col h-screen justify-between">
