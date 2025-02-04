@@ -45,6 +45,8 @@
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="nav-links flex space-x-4">
+              {{ macros::navbar_button(url="projects", text=trans(key="projects", lang=lang)) }}
+              {{ macros::navbar_button(url="skills", text=trans(key="skills", lang=lang)) }}
               {% if config.extra.navbar.items %}
               {% for item in config.extra.navbar.items %}
               {% if lang == item.lang %}
@@ -54,8 +56,6 @@
               {% endif %}
               {% endfor %}
               {% endif %}
-              {{ macros::navbar_button(url="projects", text=trans(key="projects", lang=lang)) }}
-              {{ macros::navbar_button(url="skills", text=trans(key="skills", lang=lang)) }}
 
               {% if config.extra.sidebar.items %}
               <!-- More ... Button (sidebar) -->
@@ -179,6 +179,8 @@
     <div id="mobile-menu" class="sm:hidden fixed z-10 overflow-hidden">
       <div
         class="nav-links flex flex-col space-y-4 items-center w-screen bg-gray-200 dark:bg-gray-800 transition-all ease-out duration-500 h-0">
+        {{ macros::navbar_button(url="projects", text=trans(key="projects", lang=lang)) }}
+        {{ macros::navbar_button(url="skills", text=trans(key="skills", lang=lang)) }}
         {% if config.extra.navbar.items %}
         {% for item in config.extra.navbar.items %}
         {% if lang == item.lang %}
@@ -188,8 +190,6 @@
         {% endif %}
         {% endfor %}
         {% endif %}
-        {{ macros::navbar_button(url="projects", text=trans(key="projects", lang=lang)) }}
-        {{ macros::navbar_button(url="skills", text=trans(key="skills", lang=lang)) }}
 
         {% if config.extra.sidebar.items %}
         {% for item in config.extra.sidebar.items %}
