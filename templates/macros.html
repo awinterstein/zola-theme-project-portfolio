@@ -98,7 +98,7 @@
 
             <!-- Skills & Technologies Section -->
             {% if page.taxonomies.skills %}
-            <h2>{{ trans(key="skills_technologies", lang=lang) }}</h2>
+            <h3>{{ trans(key="skills_technologies", lang=lang) }}</h3>
             {{ macros::project_list_skills(skills=page.taxonomies.skills, lang=lang) }}
             {% endif %}
 
