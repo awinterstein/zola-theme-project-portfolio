@@ -4,16 +4,10 @@
 {% block content %}
 <div class="flex items-center flex-col mt-10 px-4">
   <h1 class="text-2xl text-bold mb-6">
-    {{ term.name }} Projects
+    {{ term.name }} {{ trans(key="projects", lang=lang) }}
   </h1>
   <div class="flex flex-col gap-y-6 w-full sm:w-2/3">
-    {% if paginator %}
-    {% set pages = paginator.pages %}
-    {% else %}
-    {% set pages = term.pages %}
-    {% endif %}
-
-    {% for page in pages %}
+    {% for page in term.pages %}
       {{ macros::project_tile(page=page) }}
     {% endfor %}
   </div>
