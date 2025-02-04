@@ -10,22 +10,24 @@
       <h1><a href='{{ page.permalink }}'>{{ page.title }}</a></h1>
     </div>
 
-    <!-- Project date -->
-    {% if page.extra.date_start %}
-    <div class="flex space-x-3 text-gray-900 dark:text-gray-400">
-      <span class="mr-4">
-        {% if page.taxonomies.projects %}
-        <span>
-          {% for project in page.taxonomies.projects %}
-          <a class="text-gray-900 dark:text-gray-400 flex py-1 items-center"
+
+    <!-- Metadata (taxonomies and date) -->
+    <div class="flex space-x-6 text-gray-900 dark:text-gray-400 pl-1">
+      {% if page.taxonomies.projects -%}
+      <!-- Project taxonomies -->
+      <span>
+        {% for project in page.taxonomies.projects -%}
+        <a class="text-gray-900 dark:text-gray-400 flex py-1 items-center"
             href="{{ get_taxonomy_url(kind='projects', name=project, lang=lang) }}">
-            <i class="bi bi-inboxes mr-1" style="font-size: 1rem;"></i>
-            <span class="pl-1">{{project}}</span>
-          </a>
-          {% endfor %}
-        </span>
-        {% endif %}
+          <i class="bi bi-inboxes mr-1" style="font-size: 1rem;"></i>
+          <span class="pl-1">{{project}}</span>
+        </a>
+        {%- endfor %}
       </span>
+      {% endif -%}
+
+      {% if page.extra.date_start %}
+      <!-- Project date -->
       <span class="flex items-center">
         <i class="bi bi-calendar-range mr-1" style="font-size: 1rem;"></i>
         <span class="ml-1"><time datetime="{{ page.date }}">{% if page.extra.date_start |
@@ -34,8 +36,8 @@
             page.extra.date_start | date(format='%Y') }} - {{ page.date | date(format='%Y')
             }}{% else %}{{ page.date | date(format='%Y') }}{% endif %}</time></span>
       </span>
+      {%- endif %}
     </div>
-    {% endif %}
 
     <!-- Content -->
     <div id="page-content" class="text-bold mt-2">
@@ -50,6 +52,7 @@
 
     <!-- Skills & Technologies Section -->
     {% if page.taxonomies.skills %}
+    <h2>{{ trans(key="skills_technologies", lang=lang) }}</h2>
     {{ macros::project_list_skills(skills=page.taxonomies.skills, lang=lang) }}
     {% endif %}
   </div>
@@ -88,5 +91,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script defer src="/js/page.js"></script>
+<script defer src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/js/page.js"></script>
 {% endblock %}
