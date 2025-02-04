@@ -15,6 +15,7 @@
 
   h3 {
     @apply text-xl;
+    @apply pb-2;
   }
 
   h4 {
@@ -74,7 +75,12 @@ html {
 }
 
 #page-content pre {
-  @apply p-4 my-4 overflow-x-auto;
+  @apply p-4 mb-8 overflow-x-auto;
+}
+
+#page-content p code {
+  @apply text-orange-500;
+  @apply dark:text-orange-300;
 }
 
 #pagination .button {
