@@ -14,7 +14,7 @@
   <link rel="stylesheet" type="text/css" href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/syntax-light.css" media="(prefers-color-scheme: light)" />
 
   <!-- FAVICON -->
-  {% if config.extra.favicon.webmanifest %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.manifest }}" rel=" manifest" />{% endif %}
+  {% if config.extra.favicon.webmanifest %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.manifest }}" rel="manifest" />{% endif %}
   {% if config.extra.favicon.favicon_16x16 %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.favicon_16x16 }}" rel="icon" sizes="16x16" type="image/png" />{% endif %}
   {% if config.extra.favicon.favicon_32x32 %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.favicon_32x32 }}" rel="icon" sizes="32x32" type="image/png" />{% endif %}
   {% if config.extra.favicon.android_chrome_512 %}<link href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.favicon.android_chrome_512 }}" rel="android-chrome" sizes="512x512" />{% endif %}

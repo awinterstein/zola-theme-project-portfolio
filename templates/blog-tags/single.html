@@ -1,0 +1,15 @@
+{% import "macros.html" as macros %}
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="flex items-center flex-col mt-10 px-4">
+  <h1 class="text-2xl text-bold mb-6">
+    {{ term.name }} Posts
+  </h1>
+  <div class="flex flex-col gap-y-6 w-full sm:w-2/3">
+    {% for page in term.pages %}
+      {{ macros::blog_post_tile(page=page) }}
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

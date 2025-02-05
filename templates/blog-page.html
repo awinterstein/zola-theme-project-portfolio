@@ -1,0 +1,56 @@
+{% import "macros.html" as macros %}
+{% extends "layout.html" %}
+
+{%- block extra_headers -%}
+<meta name="fediverse:creator" content="@awinterstein@mastodon.social">
+{%- endblock -%}
+
+{% block content %}
+<div class="flex gap-x-8 mt-8 p-4 justify-center">
+    <div
+        class="flex flex-col md:w-3/4 w-full border border-2 border-gray-200 dark:border-black rounded-xl p-5 shadow-2xl bg-gray-200 dark:bg-gray-800">
+        <div class="flex flex-col py-2 justify-center">
+            <h1><a href='{{ page.permalink }}'>{{ page.title }}</a></h1>
+        </div>
+
+        <!-- Metadata (date and authors) -->
+        <div class="flex space-x-6 text-gray-900 dark:text-gray-400 pl-1 mb-2">
+            <!-- Blog entry date -->
+            <span class="flex items-center">
+                <i class="bi bi-calendar-event-fill mr-1" style="font-size: 1rem;"></i>
+                <span class="ml-1"><time datetime="{{ page.date }}">{{ page.date | date(format='%v') }}</time></span>
+            </span>
+            {% if page.authors %}
+            <!-- Blog entry author -->
+            <span class="flex items-center">
+                <i class="bi {% if page.authors | length == 1 %}bi-person-fill{% else %}bi-people-fill{% endif %} mr-1" style="font-size: 1rem;"></i>
+                <span class="ml-1">{{ page.authors | join(sep=", ") }}</span>
+            </span>
+            {% endif %}
+            <!-- Blog entry word count -->
+            <span class="flex items-center">
+                <i class="bi bi-pencil mr-1" style="font-size: 1rem;"></i>
+                <span class="ml-1">{{ page.word_count }} {{ trans(key="words", lang=lang) }}</span>
+            </span>
+            <!-- Blog entry read time -->
+            <span class="flex items-center">
+                <i class="bi bi-clock mr-1" style="font-size: 1rem;"></i>
+                <span class="ml-1">{{ page.reading_time }} {{ trans(key="minutes", lang=lang) }}</span>
+            </span>
+        </div>
+
+        <span class="pl-1 mb-2">
+        {% if page.taxonomies['blog-tags'] %}
+        {{ macros::list_taxonomy_elements(kind='blog-tags', elements=page.taxonomies['blog-tags'], lang=lang) }}
+        {% endif %}
+        </span>
+
+        <div id="page-content" class="text-bold">
+            {{ page.content | safe }}
+        </div>
+
+        {% block blog_footer %}
+        {% endblock  %}
+    </div>
+</div>
+{% endblock %}

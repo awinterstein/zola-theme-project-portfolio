@@ -118,6 +118,8 @@ read_more = "Read More"
 skills_technologies = "Skills & Technologies"
 main_skills = "Main Skills"
 other_skills = "Additional Skills"
+words = "words"
+minutes = "minutes"
 ```
 
 This would, however, lead to an empty index page. The `config.toml` can be extended by the following configuration parameters for the index page:

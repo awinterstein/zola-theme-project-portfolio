@@ -114,3 +114,7 @@ html {
   @apply bg-gray-400;
   @apply text-gray-200;
 }
+
+.comment p {
+  @apply py-1;
+}
