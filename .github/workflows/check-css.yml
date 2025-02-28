@@ -2,7 +2,6 @@ name: Check CSS
 
 on:
   push:
-    branches:
   workflow_dispatch:
 
 permissions:
@@ -20,11 +19,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Download Tailwind CSS
-        run: wget "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.10/tailwindcss-linux-x64" -O /usr/local/bin/tailwindcss && chmod +x /usr/local/bin/tailwindcss
-      - name: Verify Tailwind CSS binary
-        run: echo "0c3e21d8479a4c53ffe1cfc7fe965f6b60d8cf597bdf34db132b8c65c6143541  /usr/local/bin/tailwindcss" | shasum -a 256 -b -c --strict
-      - name: Generate CSS
-        run: tailwindcss -i src/css/main.css -o compare.css --minify
-      - name: Check for differences of committed CSS file and generated CSS file
-        run: diff --brief static/css/main.css compare.css
+      - name: Update CSS and JavaScript
+        run: ./update-css.sh
+      - name: Check for changed files
+        run: |
+          if [ ! -z "$(git status --untracked-files=no --porcelain)" ]; then
+            git diff
+            echo "::error title=Changed files::There are changed files in the repository after build"
+            exit 1
+          fi

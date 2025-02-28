@@ -8,9 +8,10 @@ RUN apk add zola
 RUN apk add libc6-compat
 
 # install the tailwindcss executable into the container
-ARG TAILWIND_VERSION=3.4.10
-RUN wget https://github.com/tailwindlabs/tailwindcss/releases/download/v${TAILWIND_VERSION}/tailwindcss-linux-x64 -O /usr/local/bin/tailwindcss \
-    && chmod +x /usr/local/bin/tailwindcss
+ARG TAILWIND_VERSION=4.0.9
+RUN wget https://github.com/tailwindlabs/tailwindcss/releases/download/v${TAILWIND_VERSION}/tailwindcss-linux-x64-musl -O /usr/local/bin/tailwindcss \
+        && chmod +x /usr/local/bin/tailwindcss
 
+# install uglify-js (including its nodejs dependency)
 RUN apk add nodejs npm
-RUN npm install --g uglify-js
+RUN npm install -g uglify-js
