@@ -1,51 +1,75 @@
 name = "Project Portfolio"
 description = "Theme for a project portfolio (based on Tailwind CSS)."
 license = "MIT"
-homepage = "https://github.com/awinterstein/zola-theme-project-portfolio"
-min_version = "0.9.0" # The minimum version of Zola required
+homepage = "https://codeberg.org/winterstein/zola-theme-project-portfolio"
+min_version = "0.19.0" # The minimum version of Zola required
 demo = "https://awinterstein.github.io/zola-theme-project-portfolio-example/" # Live demo URL
 
 [author]
 name = "Adrian Winterstein"
 homepage = "https://www.winterstein.biz"
 
+[markdown]
+highlight_code = true
+highlight_theme = "css"
+
 # Any variable there can be overridden in the end user `config.toml`
 # You don't need to prefix variables by the theme name but as this will
 # be merged with user data, some kind of prefix or nesting is preferable
 # Use snake_casing to be consistent with the rest of Zola
 [extra]
-enable_search = false
-enable_multilingual = false
+# Switches for optional features
+enable_theme_switching = false
 
-#main_skills_threshold = 5 # Set this variable to show all skills with at least n projects as main skills
+daisyui_theme_light = "winterstein-light"
+daisyui_theme_dark = "winterstein-dark"
 
-[extra.navbar]
-#title = ""
+themes = [
+    { identifier = "light", name = "Light" },
+    { identifier = "dark", name = "Dark" },
+    { identifier = "cupcake", name = "Cupcake" },
+    { identifier = "bumblebee", name = "Bumblebee" },
+    { identifier = "emerald", name = "Emerald" },
+    { identifier = "corporate", name = "Corporate" },
+    { identifier = "synthwave", name = "Synthwave" },
+    { identifier = "retro", name = "Retro" },
+    { identifier = "cyberpunk", name = "Cyberpunk" },
+    { identifier = "valentine", name = "Valentine" },
+    { identifier = "halloween", name = "Halloween" },
+    { identifier = "garden", name = "Garden" },
+    { identifier = "forest", name = "Forest" },
+    { identifier = "aqua", name = "Aqua" },
+    { identifier = "lofi", name = "Lofi" },
+    { identifier = "pastel", name = "Pastel" },
+    { identifier = "fantasy", name = "Fantasy" },
+    { identifier = "wireframe", name = "Wireframe" },
+    { identifier = "black", name = "Black" },
+    { identifier = "luxury", name = "Luxury" },
+    { identifier = "dracula", name = "Dracula" },
+    { identifier = "cmyk", name = "CMYK" },
+    { identifier = "autumn", name = "Autumn" },
+    { identifier = "business", name = "Business" },
+    { identifier = "acid", name = "Acid" },
+    { identifier = "lemonade", name = "Lemonade" },
+    { identifier = "night", name = "Night" },
+    { identifier = "coffee", name = "Coffee" },
+    { identifier = "winter", name = "Winter" },
+    { identifier = "dim", name = "Dim" },
+    { identifier = "nord", name = "Nord" },
+    { identifier = "sunset", name = "Sunset" },
+    { identifier = "caramellatte", name = "Caramellatte" },
+    { identifier = "abyss", name = "Abyss" },
+    { identifier = "silk", name = "Silk" },
+    { identifier = "winterstein-light", name = "Winterstein Light" },
+    { identifier = "winterstein-dark", name = "Winterstein Dark" },
+]
 
-#items = [
-#    { lang = "en", links = [
-#        { url = "resume", name = "CV" },
-#    ] },
-#    { lang = "de", links = [
-#        { url = "resume", name = "Lebenslauf" },
-#    ] }
-#]
-
-[extra.sidebar]
-#items = [
-#    { lang = "en", links = [
-#        { url = "markdown", name = "Markdown" },
-#        { url = "blog", name = "Blog" }
-#    ] },
-#    { lang = "fr", links = [
-#        { url = "fr/markdown", name = "Markdown" },
-#        { url = "fr/blog", name = "Blog" }
-#    ] }
-#]
+[extra.footer]
+notice = ""
 
 # Index page
 [extra.index]
-#title = "Main title"
+slogan = ""
 #image = "https://via.placeholder.com/200"
 #image_alt = "Placeholder text describing the index's image."
 

@@ -1,0 +1,40 @@
+# Required by the theme
+language_locale = "en_GB"
+language_date_format = "%v"
+
+read = "Read"
+words = "words"
+minutes = "minutes"
+
+
+# Required by the theme
+# (depending on enabled features of the theme)
+search = "Search"
+language = "Language"
+language_name = "English"
+change_language = "Change Language"
+theme = "Theme"
+
+email = "Email"
+phone = "Phone"
+
+
+# Used by sites based on the theme
+# (not necessarily needed in all languages)
+about = "About"
+blog = "Blog"
+comments = "Comments"
+home = "Home"
+impressum = "Impressum (Legal Notice)"
+main_skills = "Main Skills"
+movies = "Movies"
+other_skills = "Additional Skills"
+posts = "Posts"
+privacy_policy = "Privacy Policy"
+projects = "Projects"
+read_more = "Read More"
+resume = "CV"
+sitemap = "Sitemap"
+skills = "Skills"
+skills_technologies = "Skills & Technologies"
+tags = "Tags"

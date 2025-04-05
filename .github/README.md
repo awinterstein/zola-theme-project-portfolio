@@ -1,10 +1,10 @@
 # Project Portfolio
 
-> You can find this theme on [Codeberg](https://codeberg.org/winterstein/zola-theme-project-portfolio) and [Github](https://github.com/awinterstein/zola-theme-project-portfolio).
+> You can find this theme on [Codeberg](https://codeberg.org/winterstein/zola-theme-project-portfolio) as well. I prefer to receive issue reports and contributions there, but feel free to also open issues or pull-requests here.
 
-A [Zola](https://www.getzola.org/) theme built with [Tailwind CSS](https://tailwindcss.com/) and [DaisyUI](https://daisyui.com) for presenting the project portfolio of a freelancer, for example. The theme is based on the [Blow](https://www.getzola.org/themes/blow/) theme that was created by Thomas Chartron and on my generic [Daisy](https://codeberg.org/winterstein/zola-theme-daisy) theme. It extends the [Daisy](https://codeberg.org/winterstein/zola-theme-daisy) with specific pages, taxonomies and shortcodes for managing a project portfolio and supports all color schemes of the [Daisy](https://codeberg.org/winterstein/zola-theme-daisy) as well.
+A [Zola](https://www.getzola.org/) theme built with [Tailwind CSS](https://tailwindcss.com/) and [DaisyUI](https://daisyui.com) for presenting the project portfolio of a freelancer, for example. The theme is based on the [Blow](https://www.getzola.org/themes/blow/) theme that was created by Thomas Chartron and on my generic [Daisy](https://github.com/awinterstein/zola-theme-daisy) theme. It extends the [Daisy](https://github.com/awinterstein/zola-theme-daisy) with specific pages, taxonomies and shortcodes for managing a project portfolio and supports all color schemes of the [Daisy](https://github.com/awinterstein/zola-theme-daisy) as well.
 
-![Screenshot of a project page example](screenshot.png)
+![Screenshot of a project page example](../screenshot.png)
 
 Check out the [live demo of the example project](https://awinterstein.github.io/zola-theme-project-portfolio-example/)  or a [real-world implementation](https://www.winterstein.biz/) of this theme.
 
@@ -23,7 +23,7 @@ Check out the [live demo of the example project](https://awinterstein.github.io/
 
 ## Quick Start
 
-For starting to create a new Zola website using this theme, the easiest approach is to just checkout / fork the [example repository](https://codeberg.org/winterstein/zola-theme-project-portfolio-example) and adapt it to your needs. That repository already contains a minimal structure and configuration for the Zola-based website and can directly be built and deployed to [Netlify](https://www.netlify.com/) and Github pages.
+For starting to create a new Zola website using this theme, the easiest approach is to just checkout / fork the [example repository](https://github.com/awinterstein/zola-theme-project-portfolio-example) and adapt it to your needs. That repository already contains a minimal structure and configuration for the Zola-based website and can directly be built and deployed to Github pages and [Netlify](https://www.netlify.com/).
 
 ## Configuration
 
@@ -49,7 +49,7 @@ daisyui_theme_light = "light"
 daisyui_theme_dark = "dark"
 ```
 
-See the `themes` list in the [`theme.toml`](theme.toml) for all possible identifiers. You can also set only a light or a dark color scheme, if you do not want the automatic dark mode switching based on the browser settings of your visitors.
+See the `themes` list in the [`theme.toml`](../theme.toml) for all possible identifiers. You can also set only a light or a dark color scheme, if you do not want the automatic dark mode switching based on the browser settings of your visitors.
 
 If you want to allow your visitors to change the used color scheme, just set the following variable in the `[extra]` section of your `config.toml`:
 
@@ -87,7 +87,7 @@ taxonomies = [
 
 Taxonomies should have exactly the same (not translated) name in all languages, for the language switching to work best.
 
-You need to create an i18n file containing the translations for all theme variables for all the languages of your website, if they are not included in the theme. Right now, only [English](i18n/en.toml) and [German](i18n/de.toml) are included. You can create a the directory `i18n` in your website root directory and the language files in there will be picked up by the theme. It would be great, however, I you create a pull-request on the theme repository to add your translations to the theme.
+You need to create an i18n file containing the translations for all theme variables for all the languages of your website, if they are not included in the theme. Right now, only [English](../i18n/en.toml) and [German](../i18n/de.toml) are included. You can create a the directory `i18n` in your website root directory and the language files in there will be picked up by the theme. It would be great, however, I you create a pull-request on the theme repository to add your translations to the theme.
 
 ### Search
 
@@ -123,7 +123,7 @@ links = [
 ]
 ```
 
-The value of the `i18n_key` must be in the `i18n` files for your languages (see [en.toml](i18n/en.toml), for example).
+The value of the `i18n_key` must be in the `i18n` files for your languages (see [en.toml](../i18n/en.toml), for example).
 
 ### Footer
 
@@ -141,7 +141,7 @@ links = [
 ]
 ```
 
-The value of the `i18n_key` must be in the `i18n` files for your languages (see [en.toml](i18n/en.toml), for example). If the parameter `no_translation` is set to true, than the URL is not adapted to contain the current language code. This is needed for external links or something like the `sitemap.xml` in the example, that is not translated within your website.
+The value of the `i18n_key` must be in the `i18n` files for your languages (see [en.toml](../i18n/en.toml), for example). If the parameter `no_translation` is set to true, than the URL is not adapted to contain the current language code. This is needed for external links or something like the `sitemap.xml` in the example, that is not translated within your website.
 
 #### Social Icons
 
@@ -205,7 +205,7 @@ The installation of the theme works the same as for other Zola themes. As it is 
 ```bash
 cd my-zola-website
 git submodule add -b main \
-    https://codeberg.org/winterstein/zola-theme-project-portfolio.git \
+    https://github.com/awinterstein/zola-theme-project-portfolio.git \
     themes/project-portfolio
 ```
 
@@ -236,7 +236,7 @@ lead. Whatever makes most sense for your project portfolio.
 
 It would be shown with the configured title and content like this above the terms:
 
-![Screenshot of the projects taxonomy page](https://codeberg.org/winterstein/zola-theme-project-portfolio/raw/branch/main/screenshot-projects-taxonomy.png)
+![Screenshot of the projects taxonomy page](https://raw.githubusercontent.com/awinterstein/zola-theme-project-portfolio/main/screenshot-projects-taxonomy.png)
 
 The `skills.md` file can be created the same way. The corresponding page will just show the terms of the skills taxonomy instead of the terms of the projects taxonomy then.
 
@@ -269,4 +269,4 @@ The content of the project description page follows here.
 
 The generated project site would then look like this:
 
-![Screenshot of the project example page](https://codeberg.org/winterstein/zola-theme-project-portfolio/raw/branch/main/screenshot-project-example.png)
+![Screenshot of the project example page](https://raw.githubusercontent.com/awinterstein/zola-theme-project-portfolio/main/screenshot-project-example.png)

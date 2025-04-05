@@ -1,95 +1,70 @@
-{% import "macros.html" as macros %}
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="flex gap-x-8 mt-8 p-4 justify-center">
-  <div
-    class="flex flex-col md:w-3/4 w-full border border-2 border-gray-200 dark:border-black rounded-xl p-5 shadow-2xl bg-gray-200 dark:bg-gray-800">
 
-    <div class="flex flex-col py-2 justify-center">
-      <h1><a href='{{ page.permalink }}'>{{ page.title }}</a></h1>
-    </div>
-
-
-    <!-- Metadata (taxonomies and date) -->
-    <div class="grid-flow-row space-x-6 text-gray-900 dark:text-gray-400 pl-1">
-      {% if page.taxonomies.projects -%}
-      <!-- Project taxonomies -->
-      <span>
-        {% for project in page.taxonomies.projects -%}
-        <a class="text-gray-900 dark:text-gray-400 py-1 items-center"
-            href="{{ get_taxonomy_url(kind='projects', name=project, lang=lang) }}">
-          <i class="bi bi-inboxes-fill mr-1" style="font-size: 1rem;"></i>
-          <span class="pl-1">{{project}}</span>
-        </a>
-        {%- endfor %}
-      </span>
-      {% endif -%}
-
-      {% if page.extra.date_start %}
-      <!-- Project date -->
-      <span class="items-center whitespace-nowrap">
-        <i class="bi bi-calendar-range mr-1" style="font-size: 1rem;"></i>
-        <span class="ml-1"><time datetime="{{ page.date }}">{% if page.extra.date_start |
-            date(format='%Y') != page.date |
-            date(format='%Y') %}{{
-            page.extra.date_start | date(format='%Y') }} - {{ page.date | date(format='%Y')
-            }}{% else %}{{ page.date | date(format='%Y') }}{% endif %}</time></span>
-      </span>
-      {%- endif %}
-    </div>
-
-    <!-- Content -->
-    <div id="page-content" class="text-bold mt-2">
-      {% if page.extra.image %}
-      <img class="h-auto w-96 rounded-lg lg:float-right lg:ml-4 my-2" src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/images/{{page.extra.image}}" />
-      {% endif %}
-      {% if page.description %}
-      <p class="text-bold">{{ page.description }}</p>
-      {% endif %}
-      {{ page.content | safe }}
-    </div>
-
-    <!-- Skills & Technologies Section -->
-    {% if page.taxonomies.skills %}
-    <h2>{{ trans(key="skills_technologies", lang=lang) }}</h2>
-    {{ macros::project_list_skills(skills=page.taxonomies.skills, lang=lang) }}
-    {% endif %}
-  </div>
-
-
-  <!-- Table of content -->
-  {% if page.extra.toc %}
-  <div class="hidden sm:block sm:w-1/4 sm:flex sm:items-center sm:flex-col sm:mt-10 sm:w-1/5">
-    <div
-      class="border border-2 border-gray-200 dark:border-black rounded-xl p-5 shadow-2xl bg-gray-200 dark:bg-gray-800 sticky top-12">
-      <p class="text-bold text-xl">Table of contents</p>
-      <ul id="toc">
-        {% for h1 in page.toc %}
-        <li class="pl-2 my-2">
-          <a id="link-{{h1.id}}" class="text-md block rounded-lg p-2" href="{{ h1.permalink | safe }}">
-            - {{ h1.title }}
-          </a>
-          {% if h1.children %}
-          {% for h2 in h1.children %}
-        <li class="pl-4 my-2">
-          <a id="link-{{h2.id}}" class="text-sm block rounded-lg p-2" href="{{ h2.permalink | safe }}">
-            - {{ h2.title }}
-          </a>
-        </li>
-        {% endfor %}
+{% block breadcrumb %}
+<div class="breadcrumbs text-sm">
+    <ul>
+        <li><a href="{{ config.base_url | safe }}/{% if lang != config.default_language%}{{ lang }}{% endif %}">Home</a></li>
+        {% set current = section | default(value=page) %}
+        {% for ancestor in current.ancestors %}
+        {% if loop.first %}
+        {% continue %}
         {% endif %}
-        </li>
+        {% set section = get_section(path=ancestor) %}
+        <li><a class="breadcrumb-path" href="{{ section.permalink }}">{{ section.title }}</a></li>
         {% endfor %}
-      </ul>
-    </div>
-  </div>
-  {% endif %}
-
-
+        <li><a class="breadcrumb-path active" href="{{ current.permalink }}">{{ current.title }}</a></li>
+    </ul>
 </div>
+{% endblock breadcrumb %}
+
+<h1>{{ page.title}}</h1>
+
+{# Metadata (date, authors, word count, read time, tags) #}
+<div class="flex flex-wrap space-x-6 gap-y-2 pl-1 mb-4">
+    {% if page.date %}
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="calendar", icons=icons) }}
+        <span class=""><time datetime="{{ page.date }}">{{ page.date | date(format=i18n['language_date_format'], locale=i18n['language_locale']) }}</time></span>
+    </span>
+    {% endif %}
+
+    {% if page.authors %}
+    <span class="flex items-center whitespace-nowrap">
+        {% if page.authors | length == 1 %}{{ content::icon(id="person", icons=icons) }}{% else %}{{ content::icon(id="people", icons=icons) }}{% endif %}
+        <span>{{ page.authors | join(sep=", ") }}</span>
+    </span>
+    {% endif %}
+
+    {# Show word count and read time only, if the metadata line is already visible anyways #}
+    {% if page.date or page.authors or page.taxonomies | length > 0 %}
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="pencil", icons=icons) }}
+        <span class="ml-1">{{ page.word_count }} {{ i18n.words }}</span>
+    </span>
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="clock", icons=icons) }}
+        <span class="ml-1">{{ page.reading_time }} {{ i18n.minutes }}</span>
+    </span>
+    {% endif %}
+
+    {# Show all taxonomy elements of the page as tags, if there are any #}
+    {% if page.taxonomies | length > 0 %}
+    {% for taxonomy, elements in page.taxonomies %}
+    {% for element in elements %}
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="tag", icons=icons) }}
+        <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ element }}</a>
+    </span>
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+</div>
+
+{{ page.content | safe }}
+
+{% block page_footer %}
 {% endblock %}
 
-{% block extra_js %}
-<script defer src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/js/page.js"></script>
 {% endblock %}
