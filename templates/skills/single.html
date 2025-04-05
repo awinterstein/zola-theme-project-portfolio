@@ -1,14 +1,16 @@
 {% import "macros.html" as macros %}
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block content %}
+
+{# The section might be paginated or not, depending on the parameter in the index.md file. #}
+{% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
+
 <div class="flex items-center flex-col mt-10 px-4">
-  <h1 class="text-2xl text-bold mb-6">
-    {{ term.name }} {{ trans(key="projects", lang=lang) }}
-  </h1>
-  <div class="flex flex-col gap-y-6 w-full sm:w-2/3">
-    {% for page in term.pages %}
-      {{ macros::project_tile(page=page) }}
+  <h1 class="mb-6">{{ term.name }} {{ i18n.projects }}</h1>
+  <div class="flex flex-col gap-y-6 w-full">
+    {% for page in pages %}
+      {{ macros::project_tile(page=page, i18n=i18n, icons=icons) }}
     {% endfor %}
   </div>
 </div>

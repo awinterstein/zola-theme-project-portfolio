@@ -1,0 +1,133 @@
+{%- macro include_script(file, additional_tags="") -%}
+    <script src="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %} {{ additional_tags | safe }}></script>
+{%- endmacro -%}
+
+{%- macro include_stylesheet(file) -%}
+    <link rel="stylesheet" href="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
+{%- endmacro -%}
+
+{%- macro icon(id, class="", label="", icons="") -%}
+{%- if icons == "" -%}
+{#- Load icons from the root directory (preferred site directory, fallback theme directory) -#}
+{%- set icons = load_data(path="icons.toml", required=false) -%}
+{%- if not icons -%}{%- set icons = load_data(path="themes/project-portfolio/icons.toml", required=true) -%}{%- endif -%}
+{%- endif -%}
+<svg role="img" aria-label="{% if label != '' %}{{ label }}{% else %}{{ id | capitalize }}{% endif %}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block h-4 w-4 mr-2 {{ class }}" viewBox="0 0 16 16">{{ icons[id] | safe }}</svg>
+{%- endmacro -%}
+
+{% macro navbar_button(url, text, text_class) %}
+{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{% endif %} {# Empty for default language and language for others. #}
+<a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}"
+    {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
+        class="bg-secondary text-secondary-content no-underline px-3 rounded-md" {# Highlight button, if button URL is part of the current path. #}
+    {% else %} class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" {% endif %}>
+        <span class="{{ text_class }}">{{ text }}</span>
+</a>
+{% endmacro %}
+
+{% macro drawer_button(url, text) %}
+{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{% endif %} {# Empty for default language and language for others. #}
+<li><a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}"
+    {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
+        class="link no-underline menu-active" {# Highlight button, if button URL is part of the current path. #}
+    {% else %} class="link no-underline" {% endif %}>
+        {{ text }}
+</a></li>
+{% endmacro %}
+
+{% macro social_links(i18n, icons) %}
+{% if config.extra.social.codeberg %}
+<a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ content::icon(id="codeberg", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.github %}
+<a href="{{ config.extra.social.github }}" title="Github" target="_blank">{{ content::icon(id="github", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.gitlab %}
+<a href="{{ config.extra.social.gitlab }}" title="Gitlab" target="_blank">{{ content::icon(id="gitlab", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.stackoverflow %}
+<a href="{{ config.extra.social.stackoverflow }}" title="Stack Overflow" target="_blank">{{ content::icon(id="stackoverflow", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.mastodon %}
+<a href="{{ config.extra.social.mastodon }}" title="Mastodon" target="_blank" rel="me">{{ content::icon(id="mastodon", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.linkedin %}
+<a href="{{ config.extra.social.linkedin }}" title="LinkedIn" target="_blank">{{ content::icon(id="linkedin", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.instagram %}
+<a href="{{ config.extra.social.instagram }}" title="Instagram" target="_blank">{{ content::icon(id="instagram", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.youtube %}
+<a href="{{ config.extra.social.youtube }}" title="Youtube" target="_blank">{{ content::icon(id="youtube", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.signal %}
+<a href="{{ config.extra.social.signal }}" title="Signal" target="_blank">{{ content::icon(id="signal", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.telegram %}
+<a href="{{ config.extra.social.telegram }}" title="Telegram" target="_blank">{{ content::icon(id="telegram", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.email %}
+<a href="mailto:{{ config.extra.social.email }}" title="{{ i18n.email }}" target="_blank">{{ content::icon(id="email", class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% if config.extra.social.phone %}
+<a href="tel:{{ config.extra.social.phone }}" title="{{ i18n.phone }}" target="_blank">{{ content::icon(id="phone", label=i18n.phone, class="h-8 w-8", icons=icons) }}</a>
+{% endif %}
+{% endmacro %}
+
+{% macro cards(pages, i18n, icons) %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% for page in pages %}
+    <div class="card card-border bg-base-200 grow basis-0 max-w-100 shadow-xl transform transition duration-500 hover:scale-103">
+        <div class="card-body grow">
+            <a href="{{ page.permalink }}" class="no-underline">
+                <h2 class="card-title">{{ page.title }}</h2>
+            </a>
+
+            <!-- Metadata (date and authors) -->
+            <div class="flex flex-wrap space-x-6 pl-1 mb-2">
+                {% if page.date %}
+                <span class="flex items-center whitespace-nowrap">
+                    {{ content::icon(id="calendar", icons=icons) }}
+                    <span><time datetime="{{ page.date }}">{{ page.date | date(format=i18n['language_date_format'],
+                            locale=i18n['language_locale']) }}</time></span>
+                </span>
+                {% endif %}
+
+                {% if page.authors %}
+                <span class="flex items-center whitespace-nowrap">
+                    {% if page.authors | length == 1 %}{{ content::icon(id="person", icons=icons) }}{% else %}{{ content::icon(id="people", icons=icons) }}{% endif %}
+                    <span>{{ page.authors | join(sep=", ") }}</span>
+                </span>
+                {% endif %}
+            </div>
+
+            {% if page.summary %}{{ page.summary | safe }}{% else %}<p>{{ page.description }}</p>{% endif %}
+
+            {# Show all taxonomy elements, if there are any #}
+            {% if page.taxonomies | length > 0 %}
+            <div class="flex flex-wrap space-x-6 pl-1 mb-2">
+            {% for taxonomy, elements in page.taxonomies %}
+            {% for element in elements %}
+            <span class="flex items-center whitespace-nowrap">
+                {{ content::icon(id="tag", icons=icons) }}
+                <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ element }}</a>
+            </span>
+            {% endfor %}
+            {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="card-actions justify-end">
+                <a href="{{ page.permalink }}" class="btn btn-secondary">{{ i18n.read }}</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro term(term, show_count=true, icon_id="tag", icons) %}
+<span class="flex items-center whitespace-nowrap">
+    {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ config.base_url | safe }}{{term.path }}" class="no-underline hover:underline">{{ term.name}}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
+</span>
+{% endmacro %}

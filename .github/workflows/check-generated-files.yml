@@ -1,17 +1,8 @@
-name: Check CSS
+name: Check Generated Files
 
 on:
   push:
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -19,12 +10,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Update CSS and JavaScript
-        run: ./update-css.sh
+      - name: Build
+        run: ./build.sh
       - name: Check for changed files
         run: |
           if [ ! -z "$(git status --untracked-files=no --porcelain)" ]; then
-            git diff
+            echo "::warning::$(git status --untracked-files=no --porcelain)"
             echo "::error title=Changed files::There are changed files in the repository after build"
             exit 1
           fi

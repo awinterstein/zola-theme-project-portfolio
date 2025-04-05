@@ -1,11 +1,8 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="flex items-center flex-col mt-16">
-  {% if config.extra.index.title %}
-  <h1>
-    {{ config.extra.index.title }}
-  </h1>
+  {% if section.title %}<h1>{{ section.title }}</h1>
   {% endif %}
   {% if config.extra.index.slogan %}
   <p class="mb-6">{{ config.extra.index.slogan }}</p>
@@ -15,58 +12,6 @@
     src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.index.image }}" {% if
     config.extra.index.image_alt %}alt="{{ config.extra.index.image_alt }}" {% endif %}>
   {% endif %}
-  <div class="flex flex-wrap space-x-4 mt-7">
-    {% if config.extra.social.codeberg %}
-    <a href="{{config.extra.social.codeberg}}" target="_blank">
-      <i class="bi bi-git" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.github %}
-    <a href="{{config.extra.social.github}}" target="_blank">
-      <i class="bi bi-github" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.gitlab %}
-    <a href="{{config.extra.social.gitlab}}" target="_blank">
-      <i class="bi bi-gitlab" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.twitter %}
-    <a href="{{config.extra.social.twitter}}" target="_blank">
-      <i class="bi bi-twitter-x" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.mastodon %}
-    <a href="{{config.extra.social.mastodon}}" target="_blank" rel="me">
-      <i class="bi bi-mastodon" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.linkedin %}
-    <a href="{{config.extra.social.linkedin}}" target="_blank">
-      <i class="bi bi-linkedin" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.email %}
-    <a href="mailto:{{config.extra.social.email}}" target="_blank">
-      <i class="bi bi-envelope-paper-fill" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.stackoverflow %}
-    <a href="{{config.extra.social.stackoverflow}}" target="_blank">
-      <i class="bi bi-stack-overflow" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.telegram %}
-    <a href="{{config.extra.social.telegram}}" target="_blank">
-      <i class="bi bi-telegram" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-    {% if config.extra.social.phone %}
-    <a href="tel:{{config.extra.social.phone}}" target="_blank">
-      <i class="bi bi-telephone-fill" style="font-size: 2rem;"></i>
-    </a>
-    {% endif %}
-  </div>
 
   <!-- Content -->
   <div class="text-bold mt-2 w-2/3 text-center p-4">

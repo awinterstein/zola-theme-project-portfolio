@@ -1,86 +1,85 @@
 <!-- Shows a list of all given terms of a taxonomy. An icon is shown in front of each term. This icon needs to be given as a name of a Bootstrap icon. -->
-{% macro terms_list(terms, icon, maximum_amount='', minimum_amount='') %}
-<div class="flex flex-wrap justify-center sm:flex-row flex-col sm:gap-x-7 gap-y-5 mt-6 mb-6">
+{% macro terms_list(terms, icon, maximum_amount='', minimum_amount='', icons) %}
+<div class="flex flex-wrap justify-center flex-row gap-x-7 gap-y-5 mt-6 mb-6">
     {% for term in terms %}
     {# Show term only if its item count is between minimum and maximum amount (if those parameters are given) #}
     {% if (not minimum_amount or term.pages | length >= minimum_amount) and (not maximum_amount or term.pages | length
-    <= maximum_amount) %} <a href="{{ term.permalink | safe }}" class="flex items-center space-x-2">
-        <i class="bi bi-{{ icon }}" style="font-size: 1rem;"></i>
-        <span class="text-bold">{{ term.name }} <sup>{{ term.pages | length }}</sup></span>
-        </a>
+    <= maximum_amount) %} <span class="text-bold flex items-center space-x-1">
+        {{ content::icon(id=icon, icons=icons) }}<a href="{{ term.permalink | safe }}" class="no-underline hover:underline">
+        {{ term.name }}
+        </a><sup>{{ term.pages | length }}</sup></span>
         {% endif %}
         {% endfor %}
 </div>
 {% endmacro %}
 
 <!-- Shows a list of all given terms of a taxonomy with the projects terms icon in front of each term. -->
-{% macro terms_list_projects(terms) %}
-{{ macros::terms_list(terms=terms, icon="inboxes-fill") }}
+{% macro terms_list_projects(terms, icons) %}
+{{ macros::terms_list(terms=terms, icon="inboxes", icons=icons) }}
 {% endmacro %}
 
 <!-- Shows a list of all given terms of a taxonomy with the skills terms icon in front of each term. -->
-{% macro terms_list_skills(terms, maximum_amount='', minimum_amount='') %}
-{{ macros::terms_list(terms=terms, maximum_amount=maximum_amount, minimum_amount=minimum_amount, icon="tag-fill") }}
+{% macro terms_list_skills(terms, maximum_amount='', minimum_amount='', icons) %}
+{{ macros::terms_list(terms=terms, maximum_amount=maximum_amount, minimum_amount=minimum_amount, icon="tag", icons=icons) }}
 {% endmacro %}
 
 <!-- Shows a list of all given terms of a taxonomy with the tags terms icon in front of each term. -->
-{% macro terms_list_blog_tags(terms) %}
-{{ macros::terms_list(terms=terms, icon="tag-fill") }}
+{% macro terms_list_blog_tags(terms, icons) %}
+{{ macros::terms_list(terms=terms, icon="tag", icons=icons) }}
 {% endmacro %}
 
 <!-- Shows a list of all given terms with at least 'threshold' items of a taxonomy with the skills terms icon in front of each term. -->
-{% macro terms_list_skills_main(terms, threshold) %}
-{{ macros::terms_list_skills(terms=terms, minimum_amount=threshold) }}
+{% macro terms_list_skills_main(terms, threshold, icons) %}
+{{ macros::terms_list_skills(terms=terms, minimum_amount=threshold, icons=icons) }}
 {% endmacro %}
 
 <!-- Shows a list of all given terms with less than 'threshold' items of a taxonomy with the skills terms icon in front of each term. -->
-{% macro terms_list_skills_other(terms, threshold) %}
-{{ macros::terms_list_skills(terms=terms, maximum_amount=threshold-1) }}
+{% macro terms_list_skills_other(terms, threshold, icons) %}
+{{ macros::terms_list_skills(terms=terms, maximum_amount=threshold-1, icons=icons) }}
 {% endmacro %}
 
-{% macro list_taxonomy_elements(kind, elements, lang) %}
+{% macro list_taxonomy_elements(kind, elements, lang, icons) %}
 {% for element in elements %}
-<a class="text-gray-900 dark:text-gray-400 py-1 items-center"
-    href="{{ get_taxonomy_url(kind=kind, name=element, lang=lang) }}">
-    <i class="bi bi-tag-fill" style="font-size: 1rem;"></i>
-    <span class="pl-1">{{ element }}</span>
+<div class="py-1">
+    {{ content::icon(id="tag", icons=icons) }}
+    <a class="items-center no-underline hover:underline" href="{{ get_taxonomy_url(kind=kind, name=element, lang=lang) }}">
+        <span class="">{{ element }}</span>
 </a>
+</div>
 {% endfor %}
 {% endmacro %}
 
 <!-- Shows the given skills that are part of a project. -->
-{% macro project_list_skills(skills, lang) %}
-<div class="flex sm:flex-row flex-col flex-wrap sm:gap-x-7">
-    {{ macros::list_taxonomy_elements(kind='skills', elements=skills, lang=lang) }}
+{% macro project_list_skills(skills, lang, icons) %}
+<div class="flex flex-row flex-wrap gap-x-7">
+    {{ macros::list_taxonomy_elements(kind='skills', elements=skills, lang=lang, icons=icons) }}
 </div>
 {% endmacro %}
 
 <!-- Shows the overview tile for a project page. -->
-{% macro project_tile(page) %}
+{% macro project_tile(page, i18n, icons) %}
 <div
-    class="border border-2 border-gray-200 dark:border-black rounded-xl p-5 shadow-2xl transform transition duration-500 hover:scale-105 bg-gray-200 dark:bg-gray-800">
+    class="border border-2 border-base-300 rounded-xl p-5 shadow-2xl transform transition duration-500 hover:scale-105 bg-base-200">
     <div class="flex flex-col justify-center">
-        <h2 class="text-2xl text-bold pt-0"><a href='{{ page.permalink }}'>{{ page.title }}</a></h2>
+        <h2 class="text-2xl text-bold pt-0"><a href='{{ page.permalink }}' class="no-underline">{{ page.title }}</a></h2>
 
         <!-- Project type and date -->
         {% if page.extra.date_start %}
-        <div class="grid-flow-row space-x-3 text-gray-900 dark:text-gray-400">
-            <span class="mr-4">
-                {% if page.taxonomies.projects %}
-                <span>
-                    {% for project in page.taxonomies.projects %}
-                    <a class="text-gray-900 dark:text-gray-400 py-1 items-center"
-                        href="{{ get_taxonomy_url(kind='projects', name=project, lang=lang) }}">
-                        <i class="bi bi-inboxes-fill mr-1" style="font-size: 1rem;"></i>
-                        <span class="pl-1">{{project}}</span>
-                    </a>
-                    {% endfor %}
-                </span>
-                {% endif %}
+        <div class="flex flex-wrap space-x-6 pl-1">
+            {% if page.taxonomies.projects %}
+            <span class="flex items-center whitespace-nowrap">
+                {% for project in page.taxonomies.projects %}
+                {{ content::icon(id="inboxes", icons=icons) }}
+                <a class="py-1 items-center no-underline hover:underline" href="{{ get_taxonomy_url(kind='projects', name=project, lang=lang) }}">
+                    {{project}}
+                </a>
+                {% endfor %}
             </span>
-            <span class="items-center whitespace-nowrap">
-                <i class="bi bi-calendar-range mr-1" style="font-size: 1rem;"></i>
-                <span class="ml-1"><time datetime="{{ page.date }}">{% if page.extra.date_start |
+            {% endif -%}
+
+            <span class="flex items-center whitespace-nowrap">
+                {{ content::icon(id="calendar_range", icons=icons) }}
+                <span><time datetime="{{ page.date }}">{% if page.extra.date_start |
                         date(format='%Y') != page.date |
                         date(format='%Y') %}{{
                         page.extra.date_start | date(format='%Y') }} - {{ page.date | date(format='%Y')
@@ -98,78 +97,19 @@
 
             <!-- Read more link -->
             <div class="flex items-center w-1/3 mb-2">
-                <a class="flex" href='{{ page.permalink }}'>
-                    {{ trans(key="read_more", lang=lang) }}
-                    <i class="bi bi-arrow-right ml-1" style="font-size: 1rem;"></i>
+                <a href='{{ page.permalink }}' class="no-underline">
+                    {{ i18n.read_more }}
+                    {{ content::icon(id="arrow_right", class="ml-2 h-5 w-5", icons=icons) }}
                 </a>
             </div>
 
             <!-- Skills & Technologies Section -->
             {% if page.taxonomies.skills %}
-            <h3>{{ trans(key="skills_technologies", lang=lang) }}</h3>
-            {{ macros::project_list_skills(skills=page.taxonomies.skills, lang=lang) }}
+            <h3>{{ i18n.skills_technologies }}</h3>
+            {{ macros::project_list_skills(skills=page.taxonomies.skills, lang=lang, icons=icons) }}
             {% endif %}
 
         </span>
     </div>
 </div>
-{% endmacro %}
-
-<!-- Shows the overview tile for a blog post. -->
-{% macro blog_post_tile(page) %}
-<div
-    class="border border-2 border-gray-200 dark:border-black rounded-xl p-5 shadow-2xl transform transition duration-500 hover:scale-105 bg-gray-200 dark:bg-gray-800">
-    <div class="flex flex-col py-2 justify-center">
-        <h2 class="text-2xl text-bold"><a href='{{ page.permalink }}'>{{ page.title }}</a></h2>
-        <!-- Metadata (date and authors) -->
-        <div class="grid-flow-row space-x-6 text-gray-900 dark:text-gray-400 pl-1 mb-2">
-            <!-- Blog entry date -->
-            <span class="items-center whitespace-nowrap">
-                <i class="bi bi-calendar-event-fill mr-1" style="font-size: 1rem;"></i>
-                <span class="ml-1"><time datetime="{{ page.date }}">{{ page.date | date(format='%v') }}</time></span>
-            </span>
-            {% if page.authors %}
-            <!-- Blog entry author -->
-            <span class="items-center whitespace-nowrap">
-                <i class="bi {% if page.authors | length == 1 %}bi-person-fill{% else %}bi-people-fill{% endif %} mr-1"
-                    style="font-size: 1rem;"></i>
-                <span class="ml-1">{{ page.authors | join(sep=", ") }}</span>
-            </span>
-            {% endif %}
-            <!-- Blog entry word count -->
-            <span class="items-center whitespace-nowrap">
-                <i class="bi bi-pencil-fill mr-1" style="font-size: 1rem;"></i>
-                <span class="ml-1">{{ page.word_count }} {{ trans(key="words", lang=lang) }}</span>
-            </span>
-            <!-- Blog entry read time -->
-            <span class="items-center whitespace-nowrap">
-                <i class="bi bi-clock-fill mr-1" style="font-size: 1rem;"></i>
-                <span class="ml-1">{{ page.reading_time }} {{ trans(key="minutes", lang=lang) }}</span>
-            </span>
-        </div>
-        <p>{{ page.description }}</p>
-        <a class="flex" href='{{ page.permalink }}'>
-            {{ trans(key="read_more", lang=lang) }}
-            <i class="bi bi-arrow-right ml-1" style="font-size: 1rem;"></i>
-        </a>
-    </div>
-
-    {% if page.taxonomies['blog-tags'] %}
-    <div class="flex sm:flex-row flex-col flex-wrap sm:gap-x-7">
-    {{ macros::list_taxonomy_elements(kind='blog-tags', elements=page.taxonomies['blog-tags'], lang=lang) }}
-    </div>
-    {% endif %}
-</div>
-{% endmacro %}
-
-
-{% macro navbar_button(url, text) %}
-{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{%
-endif %} {# Empty for default language and language for others. #}
-<a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}" {% if current_path
-    and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') |
-    trim_end_matches(pat='/' )=="" )) %} class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" {#
-    Highlight button, if button URL is part of the current path. #} {% else %}
-    class="text-gray-800 dark:text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-    {% endif %}>{{ text }}</a>
 {% endmacro %}

@@ -1,23 +1,23 @@
 {% import "macros.html" as macros %}
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
 {% set page = get_page(path="projects.md", lang=lang) %}
 
 <div class="flex items-center flex-col mt-10 px-4">
-    <h1 class="text-2xl text-bold">{{ page.title }}</h1>
+    <h1>{{ page.title }}</h1>
 
     <div class="text-bold mt-4">{{ page.content | safe }}</div>
-    {{ macros::terms_list_projects(terms=terms) }}
+    {{ macros::terms_list_projects(terms=terms, icons=icons) }}
 
     <!-- List the top projects -->
-    <div class="flex flex-col gap-y-6 w-full sm:w-2/3 mt-10">
+    <div class="flex flex-col gap-y-6 w-full mt-10">
     {% set categories = get_taxonomy(kind="projects", lang=lang) %}
     {% for project_type in categories.items %}
         {% for project_page in project_type.pages %}
             {%if project_page.extra.top_project%}
-                {{ macros::project_tile(page=project_page) }}
+                {{ macros::project_tile(page=project_page, i18n=i18n, icons=icons) }}
             {%endif%}
         {% endfor %}
     {% endfor %}
