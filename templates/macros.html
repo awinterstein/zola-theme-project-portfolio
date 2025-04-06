@@ -91,7 +91,7 @@
         <span>
             {% if page.extra.image %}
             <img class="h-auto w-48 rounded-lg lg:float-right lg:ml-4 my-1"
-                src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/images/{{page.extra.image}}" />
+                src="{{ content::base_path() }}images/{{page.extra.image}}" />
             {% endif %}
             <p class="text-bold mt-2">{{ page.description | safe }}</p>
 

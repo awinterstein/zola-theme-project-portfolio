@@ -5,7 +5,7 @@
 {% block breadcrumb %}
 <div class="breadcrumbs text-sm">
   <ul>
-    <li><a href="{{ config.base_url | safe }}/{% if lang != config.default_language%}{{ lang }}{% endif %}">Home</a></li>
+    <li><a href="{{ content::base_path() }}{% if lang != config.default_language%}{{ lang }}{% endif %}">Home</a></li>
     {% set current = section | default(value=page) %}
     {% for ancestor in current.ancestors %}
     {% if loop.first %}
@@ -51,7 +51,7 @@
     <!-- Content -->
     <div id="page-content" class="text-bold mt-2">
       {% if page.extra.image %}
-      <img class="h-auto w-96 rounded-lg lg:float-right lg:ml-4 my-2" src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/images/{{page.extra.image}}" />
+      <img class="h-auto w-96 rounded-lg lg:float-right lg:ml-4 my-2" src="{{ content::base_path() }}images/{{page.extra.image}}" />
       {% endif %}
       {% if page.description %}
       <p class="text-bold">{{ page.description }}</p>

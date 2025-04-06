@@ -9,7 +9,7 @@
   {% endif %}
   {% if config.extra.index.image %}
   <img class="rounded-full h-40 w-40"
-    src="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ config.extra.index.image }}" {% if
+    src="{{ content::base_path() }}{{ config.extra.index.image }}" {% if
     config.extra.index.image_alt %}alt="{{ config.extra.index.image_alt }}" {% endif %}>
   {% endif %}
 
