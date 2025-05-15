@@ -93,7 +93,7 @@
             <img class="h-auto w-48 rounded-lg lg:float-right lg:ml-4 my-1"
                 src="{{ content::base_path() }}images/{{page.extra.image}}" />
             {% endif %}
-            <p class="text-bold mt-2">{{ page.description | safe }}</p>
+            <p class="text-bold mt-2">{{ page.description | markdown(inline=true) | safe }}</p>
 
             <!-- Read more link -->
             <div class="flex items-center w-1/3 mb-2">
