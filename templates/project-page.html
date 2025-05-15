@@ -61,7 +61,7 @@
 
     <!-- Skills & Technologies Section -->
     {% if page.taxonomies.skills %}
-    <h2>{{ i18n.skills_technologies }}</h2>
+    <h2>{{ content::translate(value='skills_technologies', i18n=i18n, i18n_user=i18n_user) }}</h2>
     {{ macros::project_list_skills(skills=page.taxonomies.skills, lang=lang, icons=icons) }}
     {% endif %}
 

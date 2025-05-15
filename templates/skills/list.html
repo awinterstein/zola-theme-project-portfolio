@@ -10,10 +10,10 @@
   <div class="text-bold mt-4">{{ page.content | safe }}</div>
 
   {%- if config.extra.main_skills_threshold -%}
-  <h2>{{ i18n.main_skills }}</h2>
+  <h2>{{ content::translate(value="Main Skills", i18n=i18n, i18n_user=i18n_user) }}</h2>
   {{ macros::terms_list_skills_main(terms=terms, threshold=config.extra.main_skills_threshold, icons=icons) }}
 
-  <h2>{{ i18n.other_skills }}</h2>
+  <h2>{{ content::translate(value="Other Skills", i18n=i18n, i18n_user=i18n_user) }}</h2>
   {{ macros::terms_list_skills_other(terms=terms, threshold=config.extra.main_skills_threshold, icons=icons) }}
   {% else %}
   {{ macros::terms_list_skills(terms=terms, icons=icons) }}

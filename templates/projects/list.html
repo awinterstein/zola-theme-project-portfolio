@@ -17,7 +17,7 @@
     {% for project_type in categories.items %}
         {% for project_page in project_type.pages %}
             {%if project_page.extra.top_project%}
-                {{ macros::project_tile(page=project_page, i18n=i18n, icons=icons) }}
+                {{ macros::project_tile(page=project_page, i18n=i18n, i18n_user=i18n_user, icons=icons) }}
             {%endif%}
         {% endfor %}
     {% endfor %}
