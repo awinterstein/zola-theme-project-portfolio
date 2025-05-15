@@ -59,6 +59,14 @@
       {{ page.content | safe }}
     </div>
 
+    <!-- Responsibilities -->
+    {% if page.extra.responsibilities %}
+    <h2>{{ content::translate(value='Responsibilities', i18n=i18n, i18n_user=i18n_user) }}</h2>
+    <ul>
+      {% for responsibility in page.extra.responsibilities %}<li>{{ responsibility | markdown(inline=true) | safe }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+
     <!-- Skills & Technologies Section -->
     {% if page.taxonomies.skills %}
     <h2>{{ content::translate(value='skills_technologies', i18n=i18n, i18n_user=i18n_user) }}</h2>
