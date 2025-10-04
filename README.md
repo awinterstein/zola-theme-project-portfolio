@@ -87,7 +87,7 @@ taxonomies = [
 
 Taxonomies should have exactly the same (not translated) name in all languages, for the language switching to work best.
 
-You need to create an i18n file containing the translations for all theme variables for all the languages of your website, if they are not included in the theme. Right now, [English](i18n/en.toml), [German](i18n/de.toml) and [Hungarian](i18n/hu.toml) are included. You can create a the directory `i18n` in your website root directory and the language files in there will be picked up by the theme. It would be great, however, if you create a pull-request on the theme repository to add your translations to the theme.
+You need to create an i18n file containing the translations for all theme variables for all the languages of your website, if they are not included in the theme. Right now, [English](i18n/en.toml), [German](i18n/de.toml), [Hungarian](i18n/hu.toml), [Finnish](i18n/fi.toml) are included. You can create a the directory `i18n` in your website root directory and the language files in there will be picked up by the theme. It would be great, however, if you create a pull-request on the theme repository to add your translations to the theme.
 
 ### Search
 
